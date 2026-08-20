@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { UtensilsCrossed, Lock } from "lucide-react";
 import EmberField from "../components/EmberField.jsx";
 import WaxSealButton from "../components/WaxSealButton.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
 
   return (
     <div className="relative flex min-h-svh flex-col overflow-hidden bg-ink">
@@ -66,23 +68,41 @@ export default function Home() {
           set.
         </motion.p>
 
+        {/* Name Input */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.7, ease: "easeOut" }}
-          className="mt-14"
-        >
-          <WaxSealButton onReveal={() => navigate("/invitation")} />
-        </motion.div>
-
-        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
-          className="mt-10 font-mono text-[10px] uppercase tracking-widest-xl text-smoke/70"
+          transition={{ delay: 0.9, duration: 0.8 }}
+          className="mt-10"
         >
-          Break the seal to draw your table
-        </motion.p>
+          <input
+            type="text"
+            placeholder="Identify yourself..."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-64 border-b border-gold/30 bg-transparent px-4 py-2 text-center font-display text-xl text-parchment outline-none transition-colors placeholder:text-smoke/40 focus:border-gold-pale focus:bg-white/5"
+          />
+        </motion.div>
+
+        {/* Conditional Button */}
+        <div className="mt-8 flex h-40 flex-col items-center justify-start">
+          <AnimatePresence>
+            {name.trim() !== "" && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="flex flex-col items-center"
+              >
+                <WaxSealButton onReveal={() => navigate("/invitation", { state: { guestName: name.trim() } })} />
+                <p className="mt-8 font-mono text-[10px] uppercase tracking-widest-xl text-smoke/70">
+                  Break the seal to draw your table
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </main>
 
       <motion.footer

@@ -1,4 +1,4 @@
-// Each visit to /invitation draws one of these at random.
+// Each visit to /invitation draws one of these at random (cached in localStorage).
 // Coordinates are intentionally vague — the club never reveals a real address up front.
 
 export const invitations = [
@@ -9,7 +9,7 @@ export const invitations = [
     hour: "Doors open between 8:40 PM and 9:10 PM",
     theme: "Monochrome",
     dressNote: "Wear only black, white, or grey. No exceptions, no logos.",
-    guests: "7 strangers, one long steel table",
+    guests: "4 strangers, one long steel table",
     chef: "Chef Ines Voss",
     chefLine: "\"I cook with what the season refuses to explain.\"",
     menu: [
@@ -27,7 +27,7 @@ export const invitations = [
     hour: "Doors open between 9:00 PM and 9:30 PM",
     theme: "Old Hollywood, unraveled",
     dressNote: "Formal wear, deliberately imperfect — a loosened tie, a torn hem.",
-    guests: "6 strangers, one projector screen, no film",
+    guests: "4 strangers, one projector screen, no film",
     chef: "Chef Bilal Osei",
     chefLine: "\"Every dish here used to be something else.\"",
     menu: [
@@ -39,31 +39,13 @@ export const invitations = [
     ],
   },
   {
-    id: "cellar-vermin",
-    venue: "An Unmarked Wine Cellar",
-    district: "Beneath the Market Quarter — stairwell unlit",
-    hour: "Doors open between 7:50 PM and 8:20 PM",
-    theme: "Come as your least flattering self",
-    dressNote: "House robes provided at the door. Leave your own clothes in the crate.",
-    guests: "5 strangers, one barrel-top table",
-    chef: "Chef Marguerite Loew",
-    chefLine: "\"Rot, properly handled, is just time you can taste.\"",
-    menu: [
-      { course: "First", dish: "Fermented black garlic consommé", note: "aged 400 days, opened tonight" },
-      { course: "Second", dish: "Cured egg yolk, dust of dried blood orange", note: "grate it yourself" },
-      { course: "Third", dish: "Wild boar terrine, juniper and ash", note: "the fat is the seasoning" },
-      { course: "Fourth", dish: "Pigeon, blackcurrant leaf, candle-rendered tallow", note: "cooked over the table's own candle" },
-      { course: "Fifth", dish: "Goat's cheese, honeycomb, cellar mould", note: "the mould is edible, we promise" },
-    ],
-  },
-  {
     id: "greenhouse-midnight",
     venue: "A Botanical Greenhouse After Hours",
     district: "North Gardens, gate code sent one hour prior",
     hour: "Doors open between 11:00 PM and 11:30 PM",
     theme: "Something you'd wear to your own funeral, in white",
     dressNote: "All white. Flowers, veils, and gloves are encouraged.",
-    guests: "8 strangers, seated among the ferns",
+    guests: "4 strangers, seated among the ferns",
     chef: "Chef Kaito Renner",
     chefLine: "\"A greenhouse at midnight lies to you about the season.\"",
     menu: [
@@ -81,7 +63,7 @@ export const invitations = [
     hour: "Doors open between 8:15 PM and 8:45 PM",
     theme: "Shipwreck formal",
     dressNote: "Something that could survive falling in water. Bring a coat.",
-    guests: "6 strangers, one drifting table",
+    guests: "4 strangers, one drifting table",
     chef: "Chef Odalys Ferreira",
     chefLine: "\"Nothing on this menu is from more than a river's reach away.\"",
     menu: [
@@ -92,65 +74,8 @@ export const invitations = [
       { course: "Fifth", dish: "Rye and molasses cake, river mint", note: "served as the barge drifts back to shore" },
     ],
   },
-  {
-    id: "loft-static",
-    venue: "An Artist's Loft, Mid-Renovation",
-    district: "Warehouse Row, third floor, no elevator",
-    hour: "Doors open between 9:30 PM and 10:00 PM",
-    theme: "Wear a color you never wear",
-    dressNote: "One bold, uncharacteristic color. Nothing else about you needs to match.",
-    guests: "7 strangers, seated on paint-cloth cushions",
-    chef: "Chef Teodor Lang",
-    chefLine: "\"I plate the way this room still smells of turpentine.\"",
-    menu: [
-      { course: "First", dish: "Beetroot tartare, horseradish snow", note: "plated on a paint palette" },
-      { course: "Second", dish: "Charred leek, brown shrimp, hazelnut praline", note: "the ash is intentional" },
-      { course: "Third", dish: "Guinea fowl, burnt apple, thyme smoke", note: "smoked tableside under a cloche" },
-      { course: "Fourth", dish: "Rabbit loin, mustard leaf, whey caramel", note: "wrapped like a parcel, unwrap slowly" },
-      { course: "Fifth", dish: "Brown sugar tart, olive oil and salt", note: "cut with a palette knife" },
-    ],
-  },
-  {
-    id: "house-stranger",
-    venue: "The Home of a Club Member, Unnamed",
-    district: "Residential — the door will simply be unlocked",
-    hour: "Doors open between 7:30 PM and 8:00 PM",
-    theme: "Come as you left the house this morning",
-    dressNote: "No costume tonight. Arrive exactly as you are.",
-    guests: "6 strangers, seated at someone else's dinner table",
-    chef: "Chef Priya Nakamura",
-    chefLine: "\"Tonight the kitchen isn't mine either.\"",
-    menu: [
-      { course: "First", dish: "Miso-cured egg, burnt scallion oil", note: "served in the host's own bowls" },
-      { course: "Second", dish: "Charred cabbage, anchovy butter", note: "cooked on the home stove, no substitutions" },
-      { course: "Third", dish: "Braised short rib, fermented chili", note: "the recipe is a family one, not mine" },
-      { course: "Fourth", dish: "Roast cauliflower, brown butter miso", note: "plated on mismatched china" },
-      { course: "Fifth", dish: "Black sesame ice cream, soy caramel", note: "eaten standing in the kitchen doorway" },
-    ],
-  },
-  {
-    id: "tower-static",
-    venue: "The 19th Floor of an Unfinished Tower",
-    district: "Construction Zone East — hard hats provided",
-    hour: "Doors open between 8:00 PM and 8:30 PM",
-    theme: "Site formal",
-    dressNote: "Tailored clothing you don't mind getting dusty.",
-    guests: "9 strangers, seated on scaffolding planks",
-    chef: "Chef Adaeze Solberg",
-    chefLine: "\"A building that isn't finished yet has no rules about dinner.\"",
-    menu: [
-      { course: "First", dish: "Charred sweetcorn, lime ash, chili oil", note: "cooked over an open flame in a steel drum" },
-      { course: "Second", dish: "Tuna belly, burnt scallion, ponzu snow", note: "sliced at the table's edge" },
-      { course: "Third", dish: "Smoked bone broth dumplings", note: "steamed in the site's own generator heat" },
-      { course: "Fourth", dish: "Wagyu skirt, charcoal salt, pepper ash", note: "rested on rebar racks" },
-      { course: "Fifth", dish: "Concrete-grey coconut panna cotta", note: "yes, it's meant to look like that" },
-    ],
-  },
 ];
 
-export function drawInvitation(excludeId) {
-  const pool = excludeId
-    ? invitations.filter((i) => i.id !== excludeId)
-    : invitations;
-  return pool[Math.floor(Math.random() * pool.length)];
+export function drawInvitation() {
+  return invitations[Math.floor(Math.random() * invitations.length)];
 }
