@@ -96,9 +96,6 @@ export default function Home() {
                 className="flex flex-col items-center"
               >
                 <WaxSealButton onReveal={() => navigate("/invitation", { state: { guestName: name.trim() } })} />
-                <p className="mt-8 font-mono text-[10px] uppercase tracking-widest-xl text-smoke/70">
-                  Break the seal to draw your table
-                </p>
               </motion.div>
             )}
           </AnimatePresence>

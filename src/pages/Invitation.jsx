@@ -9,6 +9,11 @@ import {
   ChefHat,
   Users,
   BadgeCheck,
+  UtensilsCrossed,
+  Flame,
+  Film,
+  Leaf,
+  Anchor
 } from "lucide-react";
 import EmberField from "../components/EmberField.jsx";
 import DecryptText from "../components/DecryptText.jsx";
@@ -70,10 +75,35 @@ const themeConfig = {
   }
 };
 
+const loadingCutscenes = {
+  "warehouse-quiet": {
+    icon: Flame,
+    text: "Igniting the ash...",
+    colorClass: "text-gray-400 drop-shadow-[0_0_15px_rgba(156,163,175,0.5)]"
+  },
+  "rooftop-static": {
+    icon: Film,
+    text: "Focusing the lens...",
+    colorClass: "text-gold drop-shadow-[0_0_15px_rgba(232,200,122,0.5)]"
+  },
+  "greenhouse-midnight": {
+    icon: Leaf,
+    text: "Parting the vines...",
+    colorClass: "text-emerald-500 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+  },
+  "barge-drift": {
+    icon: Anchor,
+    text: "Navigating the fog...",
+    colorClass: "text-blue-400 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]"
+  }
+};
+
 export default function Invitation() {
   const navigate = useNavigate();
   
   const [invite, setInvite] = useState(() => drawInvitation());
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isTimerFinished, setIsTimerFinished] = useState(false);
 
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -86,7 +116,20 @@ export default function Invitation() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
+    
+    // 1. Preload image
+    const img = new Image();
+    img.src = `${import.meta.env.BASE_URL}images/${invite.id}.jpg`;
+    img.onload = () => setIsImageLoaded(true);
+    img.onerror = () => setIsImageLoaded(true); // Fallback if image fails
+
+    // 2. Minimum 3 second animation timer
+    const timer = setTimeout(() => {
+      setIsTimerFinished(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [invite.id]);
 
   function handlePointerMove(e) {
     const el = cardRef.current;
@@ -102,11 +145,45 @@ export default function Invitation() {
   }
 
   const theme = themeConfig[invite.id] || themeConfig["warehouse-quiet"];
+  const isReady = isImageLoaded && isTimerFinished;
+
+  if (!isReady) {
+    const cutscene = loadingCutscenes[invite.id] || { icon: UtensilsCrossed, text: "Setting the table...", colorClass: "text-gold" };
+    const Icon = cutscene.icon;
+    const charImageUrl = `${import.meta.env.BASE_URL}images/char_${invite.id}.jpg`;
+
+    return (
+      <div className="relative flex min-h-svh flex-col items-center justify-center bg-black overflow-hidden">
+        {/* Ken Burns Character Background */}
+        <motion.div
+          initial={{ scale: 1 }}
+          animate={{ scale: 1.05 }}
+          transition={{ duration: 4, ease: "linear" }}
+          className="absolute inset-0 bg-cover bg-center opacity-70"
+          style={{ backgroundImage: `url('${charImageUrl}')` }}
+        />
+        
+        {/* Overlay gradient to ensure text readability and dark mood */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20" />
+
+        <motion.div
+          animate={{ opacity: [0, 1, 0], scale: [0.95, 1, 1.05] }}
+          transition={{ duration: 3, ease: "easeInOut" }}
+          className="relative z-10 flex flex-col items-center gap-6"
+        >
+          <Icon className={`h-8 w-8 ${cutscene.colorClass}`} strokeWidth={1} />
+          <p className={`font-mono text-[10px] uppercase tracking-widest-xl ${cutscene.colorClass.split(' ')[0]} opacity-90`}>
+            {cutscene.text}
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-svh overflow-x-hidden bg-ink pb-20">
       <div className="pointer-events-none fixed inset-0">
-        <div className={`absolute inset-0 ${theme.bgClass}`} />
+        <div className={`absolute inset-0 transition-colors duration-1000 ${theme.bgClass}`} />
         <EmberField density={26} />
         <div className="absolute inset-0 vignette" />
       </div>
