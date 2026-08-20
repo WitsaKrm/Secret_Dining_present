@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import EmberField from "../components/EmberField.jsx";
 import DecryptText from "../components/DecryptText.jsx";
+import ThemeBackground from "../components/ThemeBackground.jsx";
 import { drawInvitation, invitations } from "../data/invitations.js";
 
 const listVariants = {
@@ -35,7 +36,7 @@ const themeConfig = {
     iconClass: "text-gray-400",
     badgeClass: "border-gray-500/50 bg-gray-900 shadow-[0_0_40px_rgba(255,255,255,0.05)]",
     dividerClass: "from-transparent via-gray-500/30 to-transparent",
-    cornerClass: "border-gray-500/40"
+    cornerClass: "border-gray-500/40",
   },
   "rooftop-static": {
     bgClass: "bg-[radial-gradient(ellipse_at_50%_0%,rgba(150,110,60,0.25)_0%,rgba(10,6,5,1)_65%)]",
@@ -45,7 +46,7 @@ const themeConfig = {
     iconClass: "text-gold",
     badgeClass: "border-gold/50 bg-[#2A1F13] shadow-glow-gold",
     dividerClass: "from-transparent via-gold/30 to-transparent",
-    cornerClass: "border-gold/40"
+    cornerClass: "border-gold/40",
   },
   "greenhouse-midnight": {
     bgClass: "bg-[radial-gradient(ellipse_at_50%_0%,rgba(20,60,30,0.35)_0%,rgba(5,10,5,1)_65%)]",
@@ -55,7 +56,7 @@ const themeConfig = {
     iconClass: "text-emerald-500",
     badgeClass: "border-emerald-700/50 bg-emerald-950 shadow-[0_0_40px_rgba(20,80,40,0.2)]",
     dividerClass: "from-transparent via-emerald-800/40 to-transparent",
-    cornerClass: "border-emerald-700/40"
+    cornerClass: "border-emerald-700/40",
   },
   "barge-drift": {
     bgClass: "bg-[radial-gradient(ellipse_at_50%_0%,rgba(15,30,70,0.35)_0%,rgba(5,5,15,1)_65%)]",
@@ -65,7 +66,7 @@ const themeConfig = {
     iconClass: "text-blue-400",
     badgeClass: "border-blue-700/50 bg-blue-950 shadow-[0_0_40px_rgba(15,30,70,0.2)]",
     dividerClass: "from-transparent via-blue-800/40 to-transparent",
-    cornerClass: "border-blue-700/40"
+    cornerClass: "border-blue-700/40",
   }
 };
 
@@ -139,8 +140,11 @@ export default function Invitation() {
           animate={{ rotateX: tilt.x, rotateY: tilt.y }}
           transition={{ type: "spring", stiffness: 120, damping: 14 }}
           style={{ transformStyle: "preserve-3d" }}
-          className={`relative rounded-[2px] border ${theme.cardClass} p-7 sm:p-10`}
+          className={`relative overflow-hidden rounded-[2px] border ${theme.cardClass} p-7 sm:p-10`}
         >
+          {/* subtle abstract background */}
+          <ThemeBackground themeId={invite.id} />
+
           {/* corner ornaments */}
           <span className={`absolute left-3 top-3 h-4 w-4 border-l border-t ${theme.cornerClass}`} />
           <span className={`absolute right-3 top-3 h-4 w-4 border-r border-t ${theme.cornerClass}`} />
